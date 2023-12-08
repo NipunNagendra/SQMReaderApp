@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/readButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Read" />
+
+    <Button
+        android:id="@+id/getLocationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="142dp"
+        android:layout_toEndOf="@id/readButton"
+        android:text="Get Location" />
+
+    <Button
+        android:id="@+id/writeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/readButton"
+        android:layout_marginTop="16dp"
+        android:text="Write" />
+
+
+    <TextView
+        android:id="@+id/outputTextView"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_below="@id/writeButton"
+        android:layout_marginTop="16dp"
+        android:background="#eeeeee"
+        android:minLines="5"
+        android:scrollbars = "vertical"
+        android:gravity="bottom"
+        />
+
+    <EditText
+        android:id="@+id/periodTimeEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/outputTextView"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+ />
+
+    <EditText
+        android:id="@+id/timeLimitEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/outputTextView"
+        android:layout_marginTop="76dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        tools:text="" />
+
+    <Button
+        android:id="@+id/startReadingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/periodTimeEditText"
+        android:layout_below="@id/outputTextView"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="29dp"
+        android:text="Start Reading" />
+
+    <Button
+        android:id="@+id/clearOutputButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/startReadingButton"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@id/periodTimeEditText"
+        android:text="Clear Output" />
+
+    <Button
+        android:id="@+id/stopReadingButton"
+        android:layout_width="209dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/outputTextView"
+        android:layout_marginTop="151dp"
+        android:background="#ff0000"
+        android:minLines="5"
+        android:text="Stop Reading"
+        app:backgroundTint="#E60000" />
+
+    <TextView
+        android:id="@+id/periodTextInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/startReadingButton"
+        android:layout_marginTop="-16dp"
+        android:layout_marginBottom="100dp"
+        android:text="Period (Seconds)" />
+
+    <TextView
+        android:id="@+id/timeLimitTextInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timeLimitEditText"
+        android:layout_marginTop="-5dp"
+        android:layout_marginBottom="80dp"
+        android:text="Time Limit (Seconds)" />
+
+
+</RelativeLayout>
