@@ -8,6 +8,7 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.icu.text.SimpleDateFormat;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -17,6 +18,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.location.LocationAvailability;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialPort;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
@@ -98,16 +103,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.readButton:
-                // Perform read operation
+                //read operation
                 readFromSerial();
                 break;
 
             case R.id.writeButton:
-                // Perform write operation
+                //write operation
                 writeToSerial("rx");
                 break;
 
@@ -209,22 +215,42 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @SuppressLint("MissingPermission")
     private void getLocation() {
-        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, location -> {
-                    synchronized (this){
-                        if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                            runOnUiThread(() -> displayOutput( "Latitude: "+ latitude + "\nLongitude: " + longitude));
-                        } else {
-                            showToast("Location not available");
-                    }}
-                })
-                .addOnFailureListener(e -> {
-                    showToast("Error getting location");
-                });
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            LocationListener locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                }
+
+                @Override
+                public void onProviderEnabled(@NonNull String provider) {
+                }
+
+                @Override
+                public void onProviderDisabled(@NonNull String provider) {
+                }
+            };
+
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    0,
+                    0,
+                    locationListener
+            );
+
+            synchronized (this){
+                displayOutput("Latitude: " + latitude + "\nLongitude: " + longitude);
+            }
+        } else {
+            showToast("GPS provider is not enabled");
+        }
     }
 
     private void showToast(String message) {
@@ -270,7 +296,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-}
+    }
 
     @Override
     protected void onDestroy() {
